@@ -151,8 +151,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
 .rs{font-size:13px;color:#555;line-height:1.5}
 
 .footer{background:#1a1a2e;color:#a0b4d6;text-align:center;padding:28px;font-size:13px;margin-top:60px}
-</style>
-    /* ДОБАВЛЕНИЕ ЗАДАЧИ */
+
+/* ДОБАВЛЕНИЕ ЗАДАЧИ */
 .add-task-wrap {
   display: flex;
   gap: 8px;
@@ -165,45 +165,63 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
   flex: 1;
   padding: 8px 12px;
   font-size: 14px;
-  font-family: inherit;
+  font-family: 'Segoe UI', system-ui, sans-serif;
   border: 1.5px solid #e8e8e8;
   border-radius: 8px;
   outline: none;
   color: #1a1a2e;
   background: #fafafa;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background 0.2s;
 }
 .add-task-input:focus {
-  border-color: #1a1a2e;
   background: #fff;
 }
 .add-task-input::placeholder {
   color: #bbb;
+  font-size: 13px;
 }
 .add-task-btn {
   padding: 8px 16px;
   font-size: 13px;
-  font-family: inherit;
+  font-family: 'Segoe UI', system-ui, sans-serif;
   font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background: #1a1a2e;
   color: white;
   transition: background 0.2s, transform 0.1s;
   white-space: nowrap;
+  background: #1a1a2e;
 }
-.add-task-btn:hover { background: #2d2d4e; }
+.add-task-btn:hover { opacity: 0.85; }
 .add-task-btn:active { transform: scale(0.97); }
+
+/* Цвет кнопки по месяцу */
 .wc.A .add-task-btn { background: #e07b54; }
-.wc.A .add-task-btn:hover { background: #c96a43; }
 .wc.A .add-task-input:focus { border-color: #e07b54; }
 .wc.M .add-task-btn { background: #4a9d7f; }
-.wc.M .add-task-btn:hover { background: #3a8a6e; }
 .wc.M .add-task-input:focus { border-color: #4a9d7f; }
 .wc.J .add-task-btn { background: #5b8dd9; }
-.wc.J .add-task-btn:hover { background: #4a7bc8; }
 .wc.J .add-task-input:focus { border-color: #5b8dd9; }
+
+/* КНОПКА УДАЛЕНИЯ */
+.del-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: #ddd;
+  margin-left: auto;
+  padding: 0 2px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.del-btn:hover { color: #e07b54; }
+.ti:hover .del-btn { display: block; }
+    
+</style>
 </head>
 <body>
 
@@ -871,42 +889,64 @@ function updateWeekProgress(){
 updateProgress();
 updateWeekProgress();
 
-    // ДОБАВЛЕНИЕ ЗАДАЧ
+    // ДОБАВЛЕНИЕ И УДАЛЕНИЕ ЗАДАЧ
+function addDeleteBtn(li) {
+  var btn = document.createElement('button');
+  btn.className = 'del-btn';
+  btn.type = 'button';
+  btn.textContent = '✕';
+  btn.title = 'Удалить задачу';
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (confirm('Удалить задачу?')) {
+      li.remove();
+      updateProgress();
+      updateWeekProgress();
+    }
+  });
+  li.appendChild(btn);
+}
+
+// Добавляем кнопку удаления ко всем существующим задачам
+document.querySelectorAll('.ti').forEach(function(li) {
+  addDeleteBtn(li);
+});
+
+// Логика добавления новых задач
 document.querySelectorAll('.add-task-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    var wrap = btn.closest('.wb');
-    var input = wrap.querySelector('.add-task-input');
+  var wrap = btn.closest('.wb');
+  var input = wrap.querySelector('.add-task-input');
+
+  function addTask() {
     var text = input.value.trim();
     if (!text) return;
 
-    // Находим последний ul.tl в блоке
     var lists = wrap.querySelectorAll('.tl');
     var ul = lists[lists.length - 1];
 
-    // Создаём задачу
     var li = document.createElement('li');
     li.className = 'ti';
     li.innerHTML = '<div class="cb">✓</div><span class="tt"></span>';
     li.querySelector('.tt').textContent = text;
 
-    li.addEventListener('click', function() {
+    li.addEventListener('click', function(e) {
+      if (e.target.classList.contains('del-btn')) return;
       li.classList.toggle('done');
       updateProgress();
       updateWeekProgress();
     });
 
+    addDeleteBtn(li);
     ul.appendChild(li);
-    input.value = '';
 
+    input.value = '';
     updateProgress();
     updateWeekProgress();
-  });
+  }
 
-  // Добавление по Enter
-  var wrap = btn.closest('.wb');
-  var input = wrap.querySelector('.add-task-input');
+  btn.addEventListener('click', addTask);
   input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') btn.click();
+    if (e.key === 'Enter') addTask();
   });
 });
 </script>
