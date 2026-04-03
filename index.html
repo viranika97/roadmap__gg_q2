@@ -877,7 +877,7 @@ document.getElementById('nextBtn').addEventListener('click', function(){
 buildCal();
 
 // ── ЧЕКБОКСЫ ──
-function tog(el){
+window.tog = function(el){
   el.classList.toggle('done');
   saveTasks();
   updateProgress();
@@ -885,7 +885,7 @@ function tog(el){
 }
 
 // ── РАСКРЫТИЕ НЕДЕЛЬ ──
-function toggleW(id){
+window.toggleW = function(id){
   var card = document.getElementById(id);
   card.classList.toggle('collapsed');
 }
