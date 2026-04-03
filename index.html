@@ -152,7 +152,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
 
 .footer{background:#1a1a2e;color:#a0b4d6;text-align:center;padding:28px;font-size:13px;margin-top:60px}
 
-/* ДОБАВЛЕНИЕ ЗАДАЧИ */
+    /* ДОБАВЛЕНИЕ ЗАДАЧИ */
 .add-task-wrap {
   display: flex;
   gap: 8px;
@@ -220,7 +220,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
 }
 .del-btn:hover { color: #e07b54; }
 .ti:hover .del-btn { display: block; }
-    
 </style>
 </head>
 <body>
@@ -354,7 +353,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
     <button type="button" class="add-task-btn">+ Добавить</button>
   </div>
 </div>
-</div>
     </div>
   </div>
 
@@ -377,7 +375,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать смысловой документ как рабочую версию</span></li>
         </ul>
       </div>
-</div>
       <div class="tb">
         <div class="tbt">Контроль материалов от коллег</div>
         <ul class="tl">
@@ -386,7 +383,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Если материалы не пришли — написать повторно в тот же день, не ждать</span></li>
         </ul>
       </div>
-</div>
     </div>
   </div>
 
@@ -425,7 +421,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">По каждой точке зафиксировать: что требует текста, что дизайна, что согласования</span></li>
         </ul>
       </div>
-</div>
       <div class="tb">
         <div class="tbt">Структуры материалов — в паузах между дизайном</div>
         <ul class="tl">
@@ -836,8 +831,17 @@ function updateWeekProgress(){
 // инициализация
 updateProgress();
 updateWeekProgress();
-
-// ДОБАВЛЕНИЕ И УДАЛЕНИЕ ЗАДАЧ
+</script>
+</body>
+</html>
+        <script>
+          try {
+            
+          } catch (err) {
+            console.error('Runtime Error:', err);
+            document.body.innerHTML += '<div style="color:red; background:#ffe6e6; padding:10px; margin-top:20px; border-radius:4px; border:1px solid red;"><strong>Runtime Error:</strong> ' + err.message + '</div>';
+          }
+            // ДОБАВЛЕНИЕ И УДАЛЕНИЕ ЗАДАЧ
 function addDeleteBtn(li) {
   var btn = document.createElement('button');
   btn.className = 'del-btn';
@@ -893,7 +897,7 @@ document.querySelectorAll('.extra-tb').forEach(function(block) {
   input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') addTask();
   });
-});    
+});
         </script>
       </body>
     </html>
