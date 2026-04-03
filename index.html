@@ -919,16 +919,6 @@ function updateWeekProgress(){
 // инициализация
 updateProgress();
 updateWeekProgress();
-</script>
-</body>
-</html>
-        <script>
-          try {
-            
-          } catch (err) {
-            console.error('Runtime Error:', err);
-            document.body.innerHTML += '<div style="color:red; background:#ffe6e6; padding:10px; margin-top:20px; border-radius:4px; border:1px solid red;"><strong>Runtime Error:</strong> ' + err.message + '</div>';
-          }
             // ДОБАВЛЕНИЕ И УДАЛЕНИЕ ЗАДАЧ
 function addDeleteBtn(li) {
   var btn = document.createElement('button');
@@ -940,6 +930,7 @@ function addDeleteBtn(li) {
     e.stopPropagation();
     if (confirm('Удалить задачу?')) {
       li.remove();
+        saveTasks();
       updateProgress();
       updateWeekProgress();
     }
@@ -970,12 +961,14 @@ document.querySelectorAll('.extra-tb').forEach(function(block) {
     li.addEventListener('click', function(e) {
       if (e.target.classList.contains('del-btn')) return;
       li.classList.toggle('done');
+        saveTasks();
       updateProgress();
       updateWeekProgress();
     });
 
     addDeleteBtn(li);
     ul.appendChild(li);
+      saveTasks();
     input.value = '';
     updateProgress();
     updateWeekProgress();
@@ -986,6 +979,83 @@ document.querySelectorAll('.extra-tb').forEach(function(block) {
     if (e.key === 'Enter') addTask();
   });
 });
+    // СОХРАНЕНИЕ И ЗАГРУЗКА ЗАДАЧ
+function saveTasks() {
+  const data = {};
+
+  document.querySelectorAll('.wc').forEach(week => {
+    const weekId = week.id;
+    data[weekId] = [];
+
+    // Обычные задачи (все кроме extra-list)
+    week.querySelectorAll('.tb:not(.extra-tb) .ti').forEach(task => {
+      data[weekId].push({
+        text: task.querySelector('.tt').textContent,
+        done: task.classList.contains('done')
+      });
+    });
+
+    // Дополнительные задачи
+    data[weekId + '_extra'] = [];
+    week.querySelectorAll('.extra-list .ti').forEach(task => {
+      data[weekId + '_extra'].push({
+        text: task.querySelector('.tt').textContent,
+        done: task.classList.contains('done')
+      });
+    });
+  });
+
+  localStorage.setItem('roadmapTasks', JSON.stringify(data));
+}
+
+function loadTasks() {
+  const dataStr = localStorage.getItem('roadmapTasks');
+  if (!dataStr) return;
+  const data = JSON.parse(dataStr);
+
+  document.querySelectorAll('.wc').forEach(week => {
+    const weekId = week.id;
+
+    // Восстанавливаем статус обычных задач
+    if (data[weekId]) {
+      const tasks = week.querySelectorAll('.tb:not(.extra-tb) .ti');
+      tasks.forEach((li, index) => {
+        if (data[weekId][index] && data[weekId][index].done) {
+          li.classList.add('done');
+        }
+      });
+    }
+
+    // Восстанавливаем дополнительные задачи
+    const extraUl = week.querySelector('.extra-list');
+    if (extraUl && data[weekId + '_extra']) {
+      data[weekId + '_extra'].forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'ti';
+        if (item.done) li.classList.add('done');
+        li.innerHTML = '<div class="cb">✓</div><span class="tt"></span>';
+        li.querySelector('.tt').textContent = item.text;
+
+        li.addEventListener('click', function(e) {
+          if (e.target.classList.contains('del-btn')) return;
+          li.classList.toggle('done');
+          saveTasks();
+          updateProgress();
+          updateWeekProgress();
+        });
+
+        addDeleteBtn(li);
+        extraUl.appendChild(li);
+      });
+    }
+  });
+
+  updateProgress();
+  updateWeekProgress();
+}
+
+// loadTasks();  ← эта строка уже есть на строке 979, не дублируй!
+      loadTasks();
         </script>
       </body>
     </html>
