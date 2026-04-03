@@ -922,6 +922,15 @@ updateProgress();
 updateWeekProgress();
             // ── СОХРАНЕНИЕ И ЗАГРУЗКА ──
 function saveTasks() {
+    function saveTasks() {
+  try {
+    var data = {};
+    // ... остальной код saveTasks ...
+    localStorage.setItem('roadmapTasks', JSON.stringify(data));
+  } catch(e) {
+    console.warn('localStorage недоступен:', e);
+  }
+}
   var data = {};
   document.querySelectorAll('.wc').forEach(function(week) {
     var weekId = week.id;
