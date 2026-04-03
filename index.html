@@ -152,6 +152,58 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
 
 .footer{background:#1a1a2e;color:#a0b4d6;text-align:center;padding:28px;font-size:13px;margin-top:60px}
 </style>
+    /* ДОБАВЛЕНИЕ ЗАДАЧИ */
+.add-task-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #f0f0f0;
+}
+.add-task-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 8px;
+  outline: none;
+  color: #1a1a2e;
+  background: #fafafa;
+  transition: border-color 0.2s;
+}
+.add-task-input:focus {
+  border-color: #1a1a2e;
+  background: #fff;
+}
+.add-task-input::placeholder {
+  color: #bbb;
+}
+.add-task-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #1a1a2e;
+  color: white;
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+.add-task-btn:hover { background: #2d2d4e; }
+.add-task-btn:active { transform: scale(0.97); }
+.wc.A .add-task-btn { background: #e07b54; }
+.wc.A .add-task-btn:hover { background: #c96a43; }
+.wc.A .add-task-input:focus { border-color: #e07b54; }
+.wc.M .add-task-btn { background: #4a9d7f; }
+.wc.M .add-task-btn:hover { background: #3a8a6e; }
+.wc.M .add-task-input:focus { border-color: #4a9d7f; }
+.wc.J .add-task-btn { background: #5b8dd9; }
+.wc.J .add-task-btn:hover { background: #4a7bc8; }
+.wc.J .add-task-input:focus { border-color: #5b8dd9; }
 </head>
 <body>
 
@@ -276,6 +328,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать черновой список для обсуждения с коллегами</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -298,6 +354,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать смысловой документ как рабочую версию</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
       <div class="tb">
         <div class="tbt">Контроль материалов от коллег</div>
         <ul class="tl">
@@ -306,6 +366,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Если материалы не пришли — написать повторно в тот же день, не ждать</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -336,6 +400,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отправить макеты на согласование — дедлайн ответа 24 апреля</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
       <div class="tb">
         <div class="tbt">Точки контакта — согласование с коллегами</div>
         <ul class="tl">
@@ -344,6 +412,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">По каждой точке зафиксировать: что требует текста, что дизайна, что согласования</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
       <div class="tb">
         <div class="tbt">Структуры материалов — в паузах между дизайном</div>
         <ul class="tl">
@@ -373,6 +445,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
         </ul>
         <div class="note ns">✅ После 30 апреля упаковка закрыта. Дальше — зона ответственности производителя.</div>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
       <div class="tb">
         <div class="tbt">Листовка — правки и печать (до 3 мая)</div>
         <ul class="tl">
@@ -383,6 +459,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
         </ul>
         <div class="note ns">✅ После 3 мая листовка в печати. В отпуск уходим с закрытой листовкой.</div>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
       <div class="tb">
         <div class="tbt">Структуры и начало наполнения</div>
         <ul class="tl">
@@ -391,6 +471,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Начать наполнять материалы для менеджеров: черновик описания B и блока «кому предлагать»</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -427,6 +511,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отправить черновики на согласование — зафиксировать дедлайн ответа</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -450,6 +538,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
         </ul>
         <div class="note ns">✅ К 25 мая все материалы готовы к работе.</div>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -471,6 +563,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собирать замечания по листовке, КП, письму, PDF и устной подаче</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -494,6 +590,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Свести всю обратную связь в один документ</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -514,6 +614,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Согласовать приоритет правок с коллегами — зафиксировать дедлайн ответа</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -536,6 +640,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести финальные правки</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -556,6 +664,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Подготовить итоговый документ по Q2</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -574,6 +686,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2
           <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Закрыть незавершённые хвосты</span></li>
         </ul>
       </div>
+        <div class="add-task-wrap">
+  <input type="text" class="add-task-input" placeholder="Добавить задачу..."/>
+  <button type="button" class="add-task-btn">+ Добавить</button>
+</div>
     </div>
   </div>
 
@@ -754,6 +870,45 @@ function updateWeekProgress(){
 // инициализация
 updateProgress();
 updateWeekProgress();
+
+    // ДОБАВЛЕНИЕ ЗАДАЧ
+document.querySelectorAll('.add-task-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var wrap = btn.closest('.wb');
+    var input = wrap.querySelector('.add-task-input');
+    var text = input.value.trim();
+    if (!text) return;
+
+    // Находим последний ul.tl в блоке
+    var lists = wrap.querySelectorAll('.tl');
+    var ul = lists[lists.length - 1];
+
+    // Создаём задачу
+    var li = document.createElement('li');
+    li.className = 'ti';
+    li.innerHTML = '<div class="cb">✓</div><span class="tt"></span>';
+    li.querySelector('.tt').textContent = text;
+
+    li.addEventListener('click', function() {
+      li.classList.toggle('done');
+      updateProgress();
+      updateWeekProgress();
+    });
+
+    ul.appendChild(li);
+    input.value = '';
+
+    updateProgress();
+    updateWeekProgress();
+  });
+
+  // Добавление по Enter
+  var wrap = btn.closest('.wb');
+  var input = wrap.querySelector('.add-task-input');
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') btn.click();
+  });
+});
 </script>
 </body>
 </html>
