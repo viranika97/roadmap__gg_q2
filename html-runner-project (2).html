@@ -1,0 +1,770 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+          /* Base reset */
+          * { box-sizing: border-box; }
+          /* User CSS */
+          
+        </style>
+        <script>
+            // Capture console.log to display in parent (Optional future enhancement, currently just preventing errors)
+            window.onerror = function(message, source, lineno, colno, error) {
+                console.error('Preview Error:', message);
+            };
+        </script>
+      </head>
+      <body>
+        <!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дорожная карта Q2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6f9;color:#1a1a2e;font-size:15px;line-height:1.6}
+.cover{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#fff;padding:60px 48px 48px}
+.cover-label{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#a0b4d6;margin-bottom:16px}
+.cover-title{font-size:36px;font-weight:700;margin-bottom:8px}
+.cover-sub{font-size:18px;color:#a0b4d6;margin-bottom:40px}
+.cover-meta{display:flex;gap:32px;flex-wrap:wrap}
+.cover-meta-item{display:flex;flex-direction:column;gap:4px}
+.cover-meta-item span:first-child{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#a0b4d6}
+.cover-meta-item span:last-child{font-size:15px;color:#fff;font-weight:500}
+.wrap{max-width:960px;margin:0 auto;padding:40px 24px}
+
+/* КАЛЕНДАРЬ */
+.cal-box{background:#fff;border-radius:14px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 14px rgba(0,0,0,.07)}
+.cal-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.cal-top-label{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#888}
+.today-pill{background:#1a1a2e;color:#fff;font-size:13px;font-weight:600;padding:6px 16px;border-radius:20px}
+.cal-nav{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.cal-btn{background:#f4f6f9;border:none;border-radius:8px;width:36px;height:36px;font-size:20px;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center}
+.cal-btn:hover{background:#e0e4ea}
+.cal-month{font-size:18px;font-weight:700;flex:1;text-align:center}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-dow{text-align:center;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#aaa;padding:4px 0 8px}
+.cal-day{text-align:center;padding:8px 2px;border-radius:8px;font-size:13px;font-weight:500;color:#444;position:relative;min-height:38px;cursor:default}
+.cal-day.empty,.cal-day.other{color:#ddd}
+.cal-day.wknd{color:#bbb}
+.cal-day.today{background:#1a1a2e!important;color:#fff!important;font-weight:700}
+.cal-day.dA{background:#fde8df;color:#c0441a;font-weight:700}
+.cal-day.dM{background:#d6f0e6;color:#1e6e4a;font-weight:700}
+.cal-day.dJ{background:#ddeaff;color:#1a3a8f;font-weight:700}
+.dot{width:5px;height:5px;border-radius:50%;position:absolute;bottom:3px;left:50%;transform:translateX(-50%)}
+.dotA{background:#e07b54}.dotM{background:#4a9d7f}.dotJ{background:#5b8dd9}
+.today .dot{background:#fff!important}
+.tip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;font-size:11px;padding:5px 9px;border-radius:6px;white-space:nowrap;z-index:999;pointer-events:none}
+.cal-day:hover .tip{display:block}
+
+/* ПРОГРЕСС */
+.prog-box{background:#fff;border-radius:14px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 14px rgba(0,0,0,.07)}
+.prog-label{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:16px}
+.prog-stats{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:14px}
+.pnum{font-size:28px;font-weight:700;color:#1a1a2e}
+.plbl{font-size:12px;color:#aaa}
+.pbar-bg{background:#f0f0f0;border-radius:8px;height:10px;overflow:hidden}
+.pbar-fg{height:100%;border-radius:8px;background:linear-gradient(90deg,#e07b54,#4a9d7f);transition:width .4s}
+
+/* ЛОГИКА */
+.logic{background:#fff;border-radius:12px;padding:18px 24px;margin-bottom:28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.logic-lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888}
+.ls{font-size:13px;font-weight:600;color:#1a1a2e}
+.la{color:#ccc}
+
+/* ДЕДЛАЙНЫ */
+.sec-title{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px;margin-top:36px}
+.dl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px;margin-bottom:40px}
+.dlc{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,.05);border-left:4px solid}
+.dlc.a{border-color:#e07b54}.dlc.m{border-color:#4a9d7f}.dlc.j{border-color:#5b8dd9}
+.dld{font-size:12px;font-weight:700;margin-bottom:4px}
+.dlc.a .dld{color:#e07b54}.dlc.m .dld{color:#4a9d7f}.dlc.j .dld{color:#5b8dd9}
+.dlt{font-size:13px;color:#444;line-height:1.4}
+
+/* МЕСЯЦ */
+.mdiv{display:flex;align-items:center;gap:14px;margin:44px 0 20px}
+.mdiv-lbl{font-size:22px;font-weight:700;white-space:nowrap}
+.mdiv.A .mdiv-lbl{color:#e07b54}.mdiv.M .mdiv-lbl{color:#4a9d7f}.mdiv.J .mdiv-lbl{color:#5b8dd9}
+.mdiv-line{flex:1;height:2px;border-radius:2px}
+.mdiv.A .mdiv-line{background:linear-gradient(90deg,#e07b54,transparent)}
+.mdiv.M .mdiv-line{background:linear-gradient(90deg,#4a9d7f,transparent)}
+.mdiv.J .mdiv-line{background:linear-gradient(90deg,#5b8dd9,transparent)}
+
+/* НЕДЕЛЯ */
+.wc{background:#fff;border-radius:14px;margin-bottom:16px;box-shadow:0 2px 14px rgba(0,0,0,.06);overflow:hidden}
+.wh{padding:18px 24px 14px;border-bottom:1px solid #f0f0f0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;cursor:pointer;user-select:none}
+.wh:hover{background:#fafafa}
+.wd{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.wc.A .wd{color:#e07b54}.wc.M .wd{color:#4a9d7f}.wc.J .wd{color:#5b8dd9}
+.wf{font-size:15px;font-weight:600;color:#1a1a2e;line-height:1.3}
+.wr{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.wp{font-size:12px;color:#aaa}
+.load{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:600}
+.ll{background:#e8f5e9;color:#388e3c}
+.lm{background:#fff8e1;color:#f57f17}
+.lh{background:#fce4ec;color:#c62828}
+.lo{background:#e3f2fd;color:#1565c0}
+.wt{font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0}
+.wc.collapsed .wt{transform:rotate(-90deg)}
+.wb{padding:18px 24px}
+.wc.collapsed .wb{display:none}
+
+/* ЗАДАЧИ */
+.tb{margin-bottom:20px}
+.tb:last-child{margin-bottom:0}
+.tbt{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #f0f0f0}
+.wc.A .tbt{color:#e07b54}.wc.M .tbt{color:#4a9d7f}.wc.J .tbt{color:#5b8dd9}
+.tl{list-style:none;display:flex;flex-direction:column;gap:4px}
+.ti{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#333;line-height:1.5;cursor:pointer;padding:4px 6px;border-radius:6px;transition:background .15s}
+.ti:hover{background:#f8f8f8}
+.ti.done{color:#bbb}
+.ti.done .tt{text-decoration:line-through}
+.cb{width:18px;height:18px;border:2px solid #ddd;border-radius:5px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .15s;background:#fff;font-size:11px;font-weight:700;color:transparent}
+.wc.A .cb{border-color:#e07b54}.wc.M .cb{border-color:#4a9d7f}.wc.J .cb{border-color:#5b8dd9}
+.wc.A .ti.done .cb{background:#e07b54;border-color:#e07b54;color:#fff}
+.wc.M .ti.done .cb{background:#4a9d7f;border-color:#4a9d7f;color:#fff}
+.wc.J .ti.done .cb{background:#5b8dd9;border-color:#5b8dd9;color:#fff}
+
+/* ЗАМЕТКИ */
+.note{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.5;display:flex;gap:8px}
+.nw{background:#fff8e1;color:#795548;border-left:3px solid #ffb300}
+.ns{background:#e8f5e9;color:#2e7d32;border-left:3px solid #43a047}
+.ni{background:#e3f2fd;color:#1565c0;border-left:3px solid #1976d2}
+
+/* ОТПУСК */
+.vac{background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border-radius:14px;padding:32px 28px;margin-bottom:16px;text-align:center}
+.vac .ve{font-size:40px;margin-bottom:10px}
+.vac h3{font-size:22px;font-weight:700;margin-bottom:6px}
+.vac p{color:#90caf9;font-size:14px;margin-bottom:14px}
+.vbs{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.vb{font-size:13px;color:#bbdefb}
+
+/* РИСКИ */
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px;margin-top:14px}
+.rc{background:#fff;border-radius:10px;padding:16px 18px;box-shadow:0 2px 8px rgba(0,0,0,.05);border-left:4px solid #ffb300}
+.rt{font-size:14px;font-weight:600;color:#1a1a2e;margin-bottom:3px}
+.rw{font-size:12px;color:#e07b54;font-weight:600;margin-bottom:5px}
+.rs{font-size:13px;color:#555;line-height:1.5}
+
+.footer{background:#1a1a2e;color:#a0b4d6;text-align:center;padding:28px;font-size:13px;margin-top:60px}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-label">Дорожная карта</div>
+  <div class="cover-title">Группа Гидравликовъ</div>
+  <div class="cover-sub">Маркетинговое продвижение линейки B — Q2 2025</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span>Период</span><span>Апрель — Июнь 2025</span></div>
+    <div class="cover-meta-item"><span>Фокус</span><span>Линейка B — насосы и КОМы</span></div>
+    <div class="cover-meta-item"><span>Следующий этап</span><span>Линейка M — ввод в Q3</span></div>
+    <div class="cover-meta-item"><span>Загруженность</span><span>до 60% от основной работы</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="cal-box">
+    <div class="cal-top">
+      <div class="cal-top-label">Календарь</div>
+      <div class="today-pill" id="todayPill"></div>
+    </div>
+    <div class="cal-nav">
+      <button class="cal-btn" id="prevBtn">&#8249;</button>
+      <div class="cal-month" id="calMonth"></div>
+      <button class="cal-btn" id="nextBtn">&#8250;</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+
+  <div class="prog-box">
+    <div class="prog-label">Общий прогресс</div>
+    <div class="prog-stats">
+      <div><div class="pnum" id="sDone">0</div><div class="plbl">выполнено</div></div>
+      <div><div class="pnum" id="sTotal">0</div><div class="plbl">всего задач</div></div>
+      <div><div class="pnum" id="sPct">0%</div><div class="plbl">завершено</div></div>
+    </div>
+    <div class="pbar-bg"><div class="pbar-fg" id="pBar" style="width:0%"></div></div>
+  </div>
+
+  <div class="logic">
+    <span class="logic-lbl">Логика</span>
+    <span class="ls">Смысл</span><span class="la">→</span>
+    <span class="ls">Носители</span><span class="la">→</span>
+    <span class="ls">Материалы</span><span class="la">→</span>
+    <span class="ls">Применение</span><span class="la">→</span>
+    <span class="ls">Обратная связь</span><span class="la">→</span>
+    <span class="ls">Корректировка</span>
+  </div>
+
+  <div class="sec-title">Ключевые дедлайны</div>
+  <div class="dl-grid">
+    <div class="dlc a"><div class="dld">8 апреля</div><div class="dlt">Запросы коллегам по листовке и упаковке отправлены</div></div>
+    <div class="dlc a"><div class="dld">16 апреля</div><div class="dlt">Напоминание коллегам по материалам</div></div>
+    <div class="dlc a"><div class="dld">18 апреля</div><div class="dlt">Материалы от коллег получены</div></div>
+    <div class="dlc a"><div class="dld">24 апреля</div><div class="dlt">Макеты листовки и упаковки отправлены на согласование</div></div>
+    <div class="dlc a"><div class="dld">30 апреля</div><div class="dlt">Упаковка закрыта</div></div>
+    <div class="dlc m"><div class="dld">3 мая</div><div class="dlt">Листовка отправлена в типографию</div></div>
+    <div class="dlc m"><div class="dld">4 мая</div><div class="dlt">Уход в отпуск — все носители закрыты</div></div>
+    <div class="dlc m"><div class="dld">25 мая</div><div class="dlt">Все материалы готовы к работе</div></div>
+    <div class="dlc m"><div class="dld">26–29 мая</div><div class="dlt">Выставка СТТ</div></div>
+  </div>
+
+  <!-- АПРЕЛЬ -->
+  <div class="mdiv A"><div class="mdiv-lbl">АПРЕЛЬ</div><div class="mdiv-line"></div></div>
+
+  <div class="wc A" id="w1">
+    <div class="wh" onclick="toggleW('w1')">
+      <div><div class="wd">3 апреля — пятница</div><div class="wf">Подготовка к встрече с менеджерами</div></div>
+      <div class="wr"><span class="wp" id="pw1"></span><span class="load ll">🟢 Лёгкая</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Подготовка</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Написать план встречи: структура, хронометраж, ключевые тезисы</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Выписать что сказать про линейку B и линейку M — кратко</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Выписать вероятные вопросы от менеджеров</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Написать короткие ответы на базовые вопросы</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать список материалов для подготовки после встречи</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc A" id="w2">
+    <div class="wh" onclick="toggleW('w2')">
+      <div><div class="wd">6–12 апреля</div><div class="wf">Встреча + смысловая база + запросы коллегам + точки контакта</div></div>
+      <div class="wr"><span class="wp" id="pw2"></span><span class="load lm">🟡 Средняя</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Встреча и смысловая база</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Провести встречу с менеджерами 6 апреля</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Записать итоги встречи: вопросы, реакции, что осталось непонятным</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Провести отдельный разговор с менеджерами: как продают, скрипт, на что опираются</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать заметки по логике продаж менеджеров</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Написать черновик описания линейки B</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Написать черновик блока «кому продаём»</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Написать черновик блока «в чём ценность B»</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать черновые смысловые блоки в один документ</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отправить документ коллегам на согласование — зафиксировать дедлайн ответа</span></li>
+        </ul>
+      </div>
+      <div class="tb">
+        <div class="tbt">Запросы коллегам — в начале недели</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Поставить коллеге задачу на сборку материала для листовки — дедлайн 18 апреля</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Запросить данные для наклейки: характеристики насосов и КОМов, QR-код, контакты — дедлайн 18 апреля</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Запросить тексты и формулировки для коробки — дедлайн 18 апреля</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать, какие данные получены сразу, каких ещё нет</span></li>
+        </ul>
+      </div>
+      <div class="tb">
+        <div class="tbt">Точки контакта — черновой набросок в конце недели</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Составить черновой список всех возможных точек контакта для линейки B</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отметить приоритетные точки контакта для Q2</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отметить, какие точки контакта откладываю — и почему</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">По каждой приоритетной точке выписать, какой материал нужен</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать черновой список для обсуждения с коллегами</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc A" id="w3">
+    <div class="wh" onclick="toggleW('w3')">
+      <div><div class="wd">13–19 апреля</div><div class="wf">Финализация смысловой базы + контроль получения материалов</div></div>
+      <div class="wr"><span class="wp" id="pw3"></span><span class="load lm">🟡 Средняя</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Смысловая база — финализация</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Доработать описание линейки B по итогам согласования</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Прописать УТП линейки B</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Прописать блок «какие задачи клиента закрывает B»</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Прописать блок «основные аргументы для клиента»</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Написать короткую версию описания B — 3–5 предложений</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отправить финальную версию документа на согласование — зафиксировать дедлайн ответа</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести правки по итогам согласования</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать смысловой документ как рабочую версию</span></li>
+        </ul>
+      </div>
+      <div class="tb">
+        <div class="tbt">Контроль материалов от коллег</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Среда 16 апреля — отправить напоминание коллегам по листовке и данным для упаковки</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">18 апреля — проверить: материалы получены или нет</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Если материалы не пришли — написать повторно в тот же день, не ждать</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc A" id="w4">
+    <div class="wh" onclick="toggleW('w4')">
+      <div><div class="wd">20–26 апреля</div><div class="wf">Дизайн листовки + макеты упаковки + точки контакта + структуры материалов</div></div>
+      <div class="wr"><span class="wp" id="pw4"></span><span class="load lh">🔴 Плотная</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Листовка — дизайн и согласование</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Получить черновой материал от коллеги, проверить комплектность</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Сформулировать структуру листовки на основе полученного материала</span></li>
+          
+                    <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Сделать дизайн-макет листовки</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отправить макет на согласование — дедлайн ответа 24 апреля</span></li>
+        </ul>
+      </div>
+      <div class="tb">
+        <div class="tbt">Упаковка — концепция и макеты</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Сформулировать концепцию оформления: коробка, наклейка, общая визуальная логика</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Сделать макет коробки</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Сделать макет наклейки</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Проверить, что оба макета работают как единая система</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Подготовить комментарий к макетам: что сделано, логика, на что обратить внимание</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отправить макеты на согласование — дедлайн ответа 24 апреля</span></li>
+        </ul>
+      </div>
+      <div class="tb">
+        <div class="tbt">Точки контакта — согласование с коллегами</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Провести обсуждение с коллегами на основе чернового списка — в начале недели</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Согласовать финальный список точек контакта на Q2</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">По каждой точке зафиксировать: что требует текста, что дизайна, что согласования</span></li>
+        </ul>
+      </div>
+      <div class="tb">
+        <div class="tbt">Структуры материалов — в паузах между дизайном</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Подготовить структуру материалов для менеджеров</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Подготовить структуру КП</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Подготовить структуру письма</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Подготовить структуру PDF / презентационного материала</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отправить структуры на согласование — зафиксировать дедлайн ответа</span></li>
+        </ul>
+      </div>
+      <div class="note ni">⚡ Структуры готовятся в паузах пока ждёшь ответов по дизайну. Если паузы не появятся — переходят на начало следующей недели.</div>
+    </div>
+  </div>
+
+  <div class="wc A" id="w5">
+    <div class="wh" onclick="toggleW('w5')">
+      <div><div class="wd">27 апреля – 3 мая</div><div class="wf">Финал упаковки + листовка в печать + финал структур + начало наполнения</div></div>
+      <div class="wr"><span class="wp" id="pw5"></span><span class="load lh">🔴 Плотная</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Упаковка — правки и финализация (до 30 апреля)</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Получить обратную связь по макетам коробки и наклейки</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести правки по итогам согласования</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать финальные версии макетов</span></li>
+        </ul>
+        <div class="note ns">✅ После 30 апреля упаковка закрыта. Дальше — зона ответственности производителя.</div>
+      </div>
+      <div class="tb">
+        <div class="tbt">Листовка — правки и печать (до 3 мая)</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Получить обратную связь по макету листовки</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести правки по итогам согласования</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Подготовить финальный файл к печати</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отправить в типографию — не позднее 3 мая</span></li>
+        </ul>
+        <div class="note ns">✅ После 3 мая листовка в печати. В отпуск уходим с закрытой листовкой.</div>
+      </div>
+      <div class="tb">
+        <div class="tbt">Структуры и начало наполнения</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести правки в структуры по итогам согласования</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать финальные структуры</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Начать наполнять материалы для менеджеров: черновик описания B и блока «кому предлагать»</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- МАЙ -->
+  <div class="mdiv M"><div class="mdiv-lbl">МАЙ</div><div class="mdiv-line"></div></div>
+
+  <div class="vac">
+    <div class="ve">✈️</div>
+    <h3>Отпуск</h3>
+    <p>4–10 мая — никаких задач</p>
+    <div class="vbs">
+      <div class="vb">✅ Упаковка закрыта</div>
+      <div class="vb">✅ Листовка в печати</div>
+      <div class="vb">✅ Структуры согласованы</div>
+    </div>
+  </div>
+
+  <div class="wc M" id="w6">
+    <div class="wh" onclick="toggleW('w6')">
+      <div><div class="wd">11–17 мая</div><div class="wf">Сборка стартового пакета материалов</div></div>
+      <div class="wr"><span class="wp" id="pw6"></span><span class="load lm">🟡 Средняя</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Материалы — сборка</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Проверить статус листовки: готова ли к выставке</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Доработать черновик описания B и блока «кому предлагать» для менеджеров</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Прописать блок «основные аргументы» для менеджеров</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать блок «частые вопросы и ответы» для менеджеров</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать черновик КП</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать черновик письма</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать черновик PDF / презентационного материала</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Отправить черновики на согласование — зафиксировать дедлайн ответа</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc M" id="w7">
+    <div class="wh" onclick="toggleW('w7')">
+      <div><div class="wd">18–24 мая</div><div class="wf">Финализация всех материалов</div></div>
+      <div class="wr"><span class="wp" id="pw7"></span><span class="load lm">🟡 Средняя</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Материалы — финал</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести правки в материалы для менеджеров по итогам согласования</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести правки в КП</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести правки в письмо</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести правки в PDF / презентационный материал</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Проверить, что материалы не противоречат друг другу</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Проверить, что логика подачи линейки B одинакова во всех материалах</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Провести короткую сверку с менеджерами: понятны ли материалы, есть ли вопросы</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Зафиксировать финальные версии всех материалов</span></li>
+        </ul>
+        <div class="note ns">✅ К 25 мая все материалы готовы к работе.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc M" id="w8">
+    <div class="wh" onclick="toggleW('w8')">
+      <div><div class="wd">25–31 мая</div><div class="wf">Применение материалов + выставка СТТ 26–29 мая</div></div>
+      <div class="wr"><span class="wp" id="pw8"></span><span class="load ll">🟢 Лёгкая</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Применение</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Передать менеджерам финальный пакет материалов, объяснить как пользоваться</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Использовать материалы в текущей работе менеджеров</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Использовать листовку на выставке СТТ</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Записывать вопросы клиентов на выставке и в других точках контакта</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Записывать, что было понятно без объяснений</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Записывать, что приходилось объяснять дополнительно</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собирать замечания по листовке, КП, письму, PDF и устной подаче</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ИЮНЬ -->
+  <div class="mdiv J"><div class="mdiv-lbl">ИЮНЬ</div><div class="mdiv-line"></div></div>
+
+  <div class="wc J" id="w9">
+    <div class="wh" onclick="toggleW('w9')">
+      <div><div class="wd">1–7 июня</div><div class="wf">Сбор обратной связи</div></div>
+      <div class="wr"><span class="wp" id="pw9"></span><span class="load ll">🟢 Лёгкая</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Обратная связь — сбор</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать вопросы и реакции с выставки СТТ</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать вопросы и реакции из других точек контакта</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать замечания от менеджеров: что работает, что вызывает затруднения</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать замечания от коллег по проекту</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Собрать замечания по листовке, КП, письму, PDF</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Свести всю обратную связь в один документ</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc J" id="w10">
+    <div class="wh" onclick="toggleW('w10')">
+      <div><div class="wd">8–14 июня</div><div class="wf">Разбор обратной связи и приоритизация</div></div>
+      <div class="wr"><span class="wp" id="pw10"></span><span class="load ll">🟢 Лёгкая</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Обратная связь — анализ</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Разделить обратную связь по блокам: смыслы / материалы / визуал / вопросы / замечания менеджеров</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Составить список того, что сработало</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Составить список того, что не сработало</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Составить список того, что нужно доработать</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Выделить правки первого приоритета</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Согласовать приоритет правок с коллегами — зафиксировать дедлайн ответа</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc J" id="w11">
+    <div class="wh" onclick="toggleW('w11')">
+      <div><div class="wd">15–21 июня</div><div class="wf">Правки ключевых материалов</div></div>
+      <div class="wr"><span class="wp" id="pw11"></span><span class="load lm">🟡 Средняя</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Корректировка</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Доработать описание линейки B с учётом обратной связи</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Доработать краткую формулировку УТП</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Доработать материалы для менеджеров</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Доработать КП</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Доработать письмо</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Доработать PDF / презентационный материал</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Согласовать обновлённые версии с коллегами — зафиксировать дедлайн ответа</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Внести финальные правки</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc J" id="w12">
+    <div class="wh" onclick="toggleW('w12')">
+      <div><div class="wd">22–28 июня</div><div class="wf">Итоги Q2 + план Q3 + мягкий ввод линейки M</div></div>
+      <div class="wr"><span class="wp" id="pw12"></span><span class="load ll">🟢 Лёгкая</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Итоги и переход к Q3</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Составить список: что по линейке B уже работает и переходит в Q3</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Составить список: что по линейке B ещё требует доработки</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Составить список задач на Q3 по линейке B</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Выписать, как начать вводить линейку M в Q3: с чего начать, формат, кому и когда</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Определить получателя итогового документа и выбрать формат</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Подготовить итоговый документ по Q2</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc J" id="w13">
+    <div class="wh" onclick="toggleW('w13')">
+      <div><div class="wd">29–30 июня</div><div class="wf">Закрытие квартала</div></div>
+      <div class="wr"><span class="wp" id="pw13"></span><span class="load ll">🟢 Лёгкая</span><span class="wt">▾</span></div>
+    </div>
+    <div class="wb">
+      <div class="tb">
+        <div class="tbt">Финальная точка</div>
+        <ul class="tl">
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Проверить, что смысловой документ и все финальные версии материалов сохранены</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Проверить, что список задач на Q3 зафиксирован</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Проверить, что итоговый документ по Q2 написан и сохранён</span></li>
+          <li class="ti" onclick="tog(this)"><div class="cb">✓</div><span class="tt">Закрыть незавершённые хвосты</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- РИСКИ -->
+  <div class="sec-title">Управление рисками</div>
+  <div class="rg">
+    <div class="rc">
+      <div class="rt">Материалы от коллег не пришли вовремя</div>
+      <div class="rw">13–19 апреля</div>
+      <div class="rs">Напомнить в среду 16 апреля, проверить 18 апреля. При задержке — написать сразу, не ждать.</div>
+    </div>
+    <div class="rc">
+      <div class="rt">Согласование макетов затянулось</div>
+      <div class="rw">27 апреля – 3 мая</div>
+      <div class="rs">При отправке макетов 24 апреля явно указать дедлайн ответа — 28 апреля.</div>
+    </div>
+    <div class="rc">
+      <div class="rt">Слишком много точек контакта</div>
+      <div class="rw">20–26 апреля</div>
+      <div class="rs">При согласовании брать только то, что точно успеем сделать качественно до 25 мая.</div>
+    </div>
+    <div class="rc">
+      <div class="rt">Плотная неделя после отпуска</div>
+      <div class="rw">11–17 мая</div>
+      <div class="rs">Не ставить срочных задач с жёстким дедлайном. Черновики уходят на согласование только в конце недели.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Дорожная карта Q2 2025 — Группа Гидравликовъ · Линейка B</div>
+
+<script>
+// ── КАЛЕНДАРЬ ──
+var MONTHS = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+var DEADLINES = {
+  '2025-04-08': {cls:'dA', dot:'dotA', tip:'Запросы коллегам отправлены'},
+  '2025-04-16': {cls:'dA', dot:'dotA', tip:'Напоминание коллегам'},
+  '2025-04-18': {cls:'dA', dot:'dotA', tip:'Материалы от коллег получены'},
+  '2025-04-24': {cls:'dA', dot:'dotA', tip:'Макеты отправлены на согласование'},
+  '2025-04-30': {cls:'dA', dot:'dotA', tip:'Упаковка закрыта'},
+  '2025-05-03': {cls:'dM', dot:'dotM', tip:'Листовка в типографию'},
+  '2025-05-04': {cls:'dM', dot:'dotM', tip:'Уход в отпуск'},
+  '2025-05-25': {cls:'dM', dot:'dotM', tip:'Все материалы готовы'},
+  '2025-05-26': {cls:'dM', dot:'dotM', tip:'Выставка СТТ — начало'},
+  '2025-05-29': {cls:'dM', dot:'dotM', tip:'Выставка СТТ — конец'}
+};
+
+var now = new Date();
+var curY = now.getFullYear();
+var curM = now.getMonth();
+var todayY = now.getFullYear();
+var todayM = now.getMonth();
+var todayD = now.getDate();
+
+function pad(n){ return n < 10 ? '0'+n : ''+n; }
+
+function buildCal(){
+  var grid = document.getElementById('calGrid');
+  // удаляем всё кроме заголовков дней
+  while(grid.children.length > 7) grid.removeChild(grid.lastChild);
+
+  document.getElementById('calMonth').textContent = MONTHS[curM] + ' ' + curY;
+
+  var first = new Date(curY, curM, 1);
+  var dow = first.getDay(); // 0=вс
+  var startOffset = (dow === 0) ? 6 : dow - 1; // пн=0
+  var daysInMonth = new Date(curY, curM+1, 0).getDate();
+  var prevDays = new Date(curY, curM, 0).getDate();
+
+  // предыдущий месяц
+  for(var i = startOffset - 1; i >= 0; i--){
+    var d = document.createElement('div');
+    d.className = 'cal-day other';
+    d.textContent = prevDays - i;
+    grid.appendChild(d);
+  }
+
+  // текущий месяц
+  for(var day = 1; day <= daysInMonth; day++){
+    var d = document.createElement('div');
+    d.className = 'cal-day';
+    
+        var dateStr = curY + '-' + pad(curM+1) + '-' + pad(day);
+    var isToday = (curY === todayY && curM === todayM && day === todayD);
+    var dl = DEADLINES[dateStr];
+    var dayOfWeek = new Date(curY, curM, day).getDay();
+    var isWknd = (dayOfWeek === 0 || dayOfWeek === 6);
+
+    if(isToday) d.classList.add('today');
+    else if(dl) d.classList.add(dl.cls);
+    else if(isWknd) d.classList.add('wknd');
+
+    d.textContent = day;
+
+    if(dl){
+      var dot = document.createElement('div');
+      dot.className = 'dot ' + dl.dot;
+      d.appendChild(dot);
+      var tip = document.createElement('div');
+      tip.className = 'tip';
+      tip.textContent = dl.tip;
+      d.appendChild(tip);
+    }
+
+    grid.appendChild(d);
+  }
+
+  // следующий месяц
+  var total = startOffset + daysInMonth;
+  var rest = total % 7 === 0 ? 0 : 7 - (total % 7);
+  for(var j = 1; j <= rest; j++){
+    var d = document.createElement('div');
+    d.className = 'cal-day other';
+    d.textContent = j;
+    grid.appendChild(d);
+  }
+}
+
+// сегодняшняя дата в шапке
+var dayNames = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+var monthNamesGen = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+document.getElementById('todayPill').textContent = todayD + ' ' + monthNamesGen[todayM] + ' ' + todayY + ', ' + dayNames[now.getDay()];
+
+document.getElementById('prevBtn').addEventListener('click', function(){
+  curM--;
+  if(curM < 0){ curM = 11; curY--; }
+  buildCal();
+});
+document.getElementById('nextBtn').addEventListener('click', function(){
+  curM++;
+  if(curM > 11){ curM = 0; curY++; }
+  buildCal();
+});
+
+buildCal();
+
+// ── ЧЕКБОКСЫ ──
+function tog(el){
+  el.classList.toggle('done');
+  updateProgress();
+  updateWeekProgress();
+}
+
+// ── РАСКРЫТИЕ НЕДЕЛЬ ──
+function toggleW(id){
+  var card = document.getElementById(id);
+  card.classList.toggle('collapsed');
+}
+
+// ── ПРОГРЕСС ──
+function updateProgress(){
+  var all = document.querySelectorAll('.ti');
+  var done = document.querySelectorAll('.ti.done');
+  var total = all.length;
+  var d = done.length;
+  var pct = total > 0 ? Math.round(d / total * 100) : 0;
+  document.getElementById('sDone').textContent = d;
+  document.getElementById('sTotal').textContent = total;
+  document.getElementById('sPct').textContent = pct + '%';
+  document.getElementById('pBar').style.width = pct + '%';
+}
+
+function updateWeekProgress(){
+  var weeks = ['w1','w2','w3','w4','w5','w6','w7','w8','w9','w10','w11','w12','w13'];
+  weeks.forEach(function(id){
+    var card = document.getElementById(id);
+    if(!card) return;
+    var all = card.querySelectorAll('.ti');
+    var done = card.querySelectorAll('.ti.done');
+    var el = document.getElementById('pw' + id.replace('w',''));
+    if(el && all.length > 0){
+      el.textContent = done.length + '/' + all.length;
+    }
+  });
+}
+
+// инициализация
+updateProgress();
+updateWeekProgress();
+</script>
+</body>
+</html>
+        <script>
+          try {
+            
+          } catch (err) {
+            console.error('Runtime Error:', err);
+            document.body.innerHTML += '<div style="color:red; background:#ffe6e6; padding:10px; margin-top:20px; border-radius:4px; border:1px solid red;"><strong>Runtime Error:</strong> ' + err.message + '</div>';
+          }
+        </script>
+      </body>
+    </html>
+  
