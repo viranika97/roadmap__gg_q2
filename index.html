@@ -1,24 +1,4 @@
-
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <style>
-          /* Base reset */
-          * { box-sizing: border-box; }
-          /* User CSS */
-          
-        </style>
-        <script>
-            // Capture console.log to display in parent (Optional future enhancement, currently just preventing errors)
-            window.onerror = function(message, source, lineno, colno, error) {
-                console.error('Preview Error:', message);
-            };
-        </script>
-      </head>
-      <body>
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -794,68 +774,97 @@ var todayY = now.getFullYear();
 var todayM = now.getMonth();
 var todayD = now.getDate();
 
-function pad(n){ return n < 10 ? '0'+n : ''+n; }
+function pad(n){
+  return n < 10 ? '0' + n : '' + n;
+}
 
 function buildCal(){
   var grid = document.getElementById('calGrid');
-  while(grid.children.length > 7) grid.removeChild(grid.lastChild);
+  while (grid.children.length > 7) {
+    grid.removeChild(grid.lastChild);
+  }
+
   document.getElementById('calMonth').textContent = MONTHS[curM] + ' ' + curY;
+
   var first = new Date(curY, curM, 1);
   var dow = first.getDay();
   var startOffset = (dow === 0) ? 6 : dow - 1;
-  var daysInMonth = new Date(curY, curM+1, 0).getDate();
+  var daysInMonth = new Date(curY, curM + 1, 0).getDate();
   var prevDays = new Date(curY, curM, 0).getDate();
-  for(var i = startOffset - 1; i >= 0; i--){
-    var d = document.createElement('div');
-    d.className = 'cal-day other';
-    d.textContent = prevDays - i;
-    grid.appendChild(d);
+
+  for (var i = startOffset - 1; i >= 0; i--) {
+    var prev = document.createElement('div');
+    prev.className = 'cal-day other';
+    prev.textContent = prevDays - i;
+    grid.appendChild(prev);
   }
-  for(var day = 1; day <= daysInMonth; day++){
+
+  for (var day = 1; day <= daysInMonth; day++) {
     var d = document.createElement('div');
     d.className = 'cal-day';
-    var dateStr = curY + '-' + pad(curM+1) + '-' + pad(day);
+
+    var dateStr = curY + '-' + pad(curM + 1) + '-' + pad(day);
     var isToday = (curY === todayY && curM === todayM && day === todayD);
-    var dl = DEADLINES[dateStr];
+    var deadline = DEADLINES[dateStr];
     var dayOfWeek = new Date(curY, curM, day).getDay();
-    var isWknd = (dayOfWeek === 0 || dayOfWeek === 6);
-    if(isToday) d.classList.add('today');
-    else if(dl) d.classList.add(dl.cls);
-    else if(isWknd) d.classList.add('wknd');
+    var isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+
+    if (isToday) {
+      d.classList.add('today');
+    } else if (deadline) {
+      d.classList.add(deadline.cls);
+    } else if (isWeekend) {
+      d.classList.add('wknd');
+    }
+
     d.textContent = day;
-    if(dl){
+
+    if (deadline) {
       var dot = document.createElement('div');
-      dot.className = 'dot ' + dl.dot;
+      dot.className = 'dot ' + deadline.dot;
       d.appendChild(dot);
+
       var tip = document.createElement('div');
       tip.className = 'tip';
-      tip.textContent = dl.tip;
+      tip.textContent = deadline.tip;
       d.appendChild(tip);
     }
+
     grid.appendChild(d);
   }
+
   var total = startOffset + daysInMonth;
   var rest = total % 7 === 0 ? 0 : 7 - (total % 7);
-  for(var j = 1; j <= rest; j++){
-    var d = document.createElement('div');
-    d.className = 'cal-day other';
-    d.textContent = j;
-    grid.appendChild(d);
+
+  for (var j = 1; j <= rest; j++) {
+    var next = document.createElement('div');
+    next.className = 'cal-day other';
+    next.textContent = j;
+    grid.appendChild(next);
   }
 }
 
 var dayNames = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
 var monthNamesGen = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-document.getElementById('todayPill').textContent = todayD + ' ' + monthNamesGen[todayM] + ' ' + todayY + ', ' + dayNames[now.getDay()];
+
+document.getElementById('todayPill').textContent =
+  todayD + ' ' + monthNamesGen[todayM] + ' ' + todayY + ', ' + dayNames[now.getDay()];
 
 document.getElementById('prevBtn').addEventListener('click', function(){
   curM--;
-  if(curM < 0){ curM = 11; curY--; }
+  if (curM < 0) {
+    curM = 11;
+    curY--;
+  }
   buildCal();
 });
+
 document.getElementById('nextBtn').addEventListener('click', function(){
   curM++;
-  if(curM > 11){ curM = 0; curY++; }
+  if (curM > 11) {
+    curM = 0;
+    curY++;
+  }
   buildCal();
 });
 
@@ -868,6 +877,7 @@ function updateProgress(){
   var total = all.length;
   var d = done.length;
   var pct = total > 0 ? Math.round(d / total * 100) : 0;
+
   document.getElementById('sDone').textContent = d;
   document.getElementById('sTotal').textContent = total;
   document.getElementById('sPct').textContent = pct + '%';
@@ -876,76 +886,77 @@ function updateProgress(){
 
 function updateWeekProgress(){
   var weeks = ['w1','w2','w3','w4','w5','w6','w7','w8','w9','w10','w11','w12','w13'];
+
   weeks.forEach(function(id){
     var card = document.getElementById(id);
-    if(!card) return;
+    if (!card) return;
+
     var all = card.querySelectorAll('.ti');
     var done = card.querySelectorAll('.ti.done');
-    var el = document.getElementById('pw' + id.replace('w',''));
-    if(el && all.length > 0){
+    var el = document.getElementById('pw' + id.replace('w', ''));
+
+    if (el && all.length > 0) {
       el.textContent = done.length + '/' + all.length;
     }
   });
 }
 
-// ── СОХРАНЕНИЕ И ЗАГРУЗКА ──
-function saveTasks() {
+// ── СОХРАНЕНИЕ ──
+function saveTasks(){
   try {
     var data = {};
-    document.querySelectorAll('.wc').forEach(function(week) {
+
+    document.querySelectorAll('.wc').forEach(function(week){
       var weekId = week.id;
+
       data[weekId] = [];
-      week.querySelectorAll('.tb:not(.extra-tb) .ti').forEach(function(task) {
+      week.querySelectorAll('.tb:not(.extra-tb) .ti').forEach(function(task){
+        var textNode = task.querySelector('.tt');
         data[weekId].push({
-          text: task.querySelector('.tt').textContent,
+          text: textNode ? textNode.textContent : '',
           done: task.classList.contains('done')
         });
       });
+
       data[weekId + '_extra'] = [];
-      week.querySelectorAll('.extra-list .ti').forEach(function(task) {
+      week.querySelectorAll('.extra-list .ti').forEach(function(task){
+        var textNode = task.querySelector('.tt');
         data[weekId + '_extra'].push({
-          text: task.querySelector('.tt').textContent,
+          text: textNode ? textNode.textContent : '',
           done: task.classList.contains('done')
         });
       });
     });
+
     localStorage.setItem('roadmapTasks', JSON.stringify(data));
   } catch(e) {
     console.warn('localStorage недоступен:', e);
   }
 }
 
-function loadTasks() {
+function loadTasks(){
   try {
     var dataStr = localStorage.getItem('roadmapTasks');
     if (!dataStr) return;
+
     var data = JSON.parse(dataStr);
-    document.querySelectorAll('.wc').forEach(function(week) {
+
+    document.querySelectorAll('.wc').forEach(function(week){
       var weekId = week.id;
+
       if (data[weekId]) {
-        var tasks = week.querySelectorAll('.tb:not(.extra-tb) .ti');
-        tasks.forEach(function(li, index) {
+        var baseTasks = week.querySelectorAll('.tb:not(.extra-tb) .ti');
+        baseTasks.forEach(function(li, index){
           if (data[weekId][index] && data[weekId][index].done) {
             li.classList.add('done');
           }
         });
       }
+
       var extraUl = week.querySelector('.extra-list');
       if (extraUl && data[weekId + '_extra']) {
-        data[weekId + '_extra'].forEach(function(item) {
-          var li = document.createElement('li');
-          li.className = 'ti';
-          if (item.done) li.classList.add('done');
-          li.innerHTML = '<div class="cb">✓</div><span class="tt"></span>';
-          li.querySelector('.tt').textContent = item.text;
-          li.addEventListener('click', function(e) {
-            if (e.target.classList.contains('del-btn')) return;
-            li.classList.toggle('done');
-            saveTasks();
-            updateProgress();
-            updateWeekProgress();
-          });
-          addDeleteBtn(li);
+        data[weekId + '_extra'].forEach(function(item){
+          var li = createExtraTask(item.text, item.done);
           extraUl.appendChild(li);
         });
       }
@@ -953,86 +964,103 @@ function loadTasks() {
   } catch(e) {
     console.warn('Ошибка загрузки:', e);
   }
-  updateProgress();
-  updateWeekProgress();
 }
 
-// ── УДАЛЕНИЕ ЗАДАЧ ──
-function addDeleteBtn(li) {
+// ── УДАЛЕНИЕ ТОЛЬКО ДЛЯ ДОБАВЛЕННЫХ ЗАДАЧ ──
+function addDeleteBtn(li){
   var btn = document.createElement('button');
   btn.className = 'del-btn';
   btn.type = 'button';
   btn.textContent = '✕';
   btn.title = 'Удалить задачу';
-  btn.addEventListener('click', function(e) {
+
+  btn.addEventListener('click', function(e){
     e.stopPropagation();
-    if (confirm('Удалить задачу?')) {
-      li.remove();
-      saveTasks();
-      updateProgress();
-      updateWeekProgress();
-    }
+    li.remove();
+    saveTasks();
+    updateProgress();
+    updateWeekProgress();
   });
+
   li.appendChild(btn);
 }
 
-// ── ЧЕКБОКСЫ (глобально для onclick в HTML) ──
-window.tog = function(el) {
+// ── СОЗДАНИЕ ДОП. ЗАДАЧИ ──
+function createExtraTask(text, isDone){
+  var li = document.createElement('li');
+  li.className = 'ti';
+  if (isDone) li.classList.add('done');
+
+  li.innerHTML = '<div class="cb">✓</div><span class="tt"></span>';
+  li.querySelector('.tt').textContent = text;
+
+  li.addEventListener('click', function(e){
+    if (e.target.classList.contains('del-btn')) return;
+    li.classList.toggle('done');
+    saveTasks();
+    updateProgress();
+    updateWeekProgress();
+  });
+
+  addDeleteBtn(li);
+  return li;
+}
+
+// ── ГАЛОЧКИ ──
+function tog(el){
   el.classList.toggle('done');
   saveTasks();
   updateProgress();
   updateWeekProgress();
-};
+}
 
-// ── РАСКРЫТИЕ НЕДЕЛЬ (глобально для onclick в HTML) ──
-window.toggleW = function(id) {
+// ── РАСКРЫТИЕ НЕДЕЛЬ ──
+function toggleW(id){
   var card = document.getElementById(id);
-  card.classList.toggle('collapsed');
-};
-
-// ── КНОПКИ УДАЛЕНИЯ ДЛЯ СУЩЕСТВУЮЩИХ ЗАДАЧ ──
-document.querySelectorAll('.ti').forEach(function(li) {
-  addDeleteBtn(li);
-});
+  if (card) {
+    card.classList.toggle('collapsed');
+  }
+}
 
 // ── ДОБАВЛЕНИЕ ЗАДАЧ ──
-document.querySelectorAll('.extra-tb').forEach(function(block) {
-  var input = block.querySelector('.add-task-input');
-  var btn = block.querySelector('.add-task-btn');
-  var ul = block.querySelector('.extra-list');
+function initExtraTaskBlocks(){
+  document.querySelectorAll('.extra-tb').forEach(function(block){
+    var input = block.querySelector('.add-task-input');
+    var btn = block.querySelector('.add-task-btn');
+    var ul = block.querySelector('.extra-list');
 
-  function addTask() {
-    var text = input.value.trim();
-    if (!text) return;
-    var li = document.createElement('li');
-    li.className = 'ti';
-    li.innerHTML = '<div class="cb">✓</div><span class="tt"></span>';
-    li.querySelector('.tt').textContent = text;
-    li.addEventListener('click', function(e) {
-      if (e.target.classList.contains('del-btn')) return;
-      li.classList.toggle('done');
+    if (!input || !btn || !ul) return;
+
+    function addTask(){
+      var text = input.value.trim();
+      if (!text) return;
+
+      var li = createExtraTask(text, false);
+      ul.appendChild(li);
+
+      input.value = '';
       saveTasks();
       updateProgress();
       updateWeekProgress();
-    });
-    addDeleteBtn(li);
-    ul.appendChild(li);
-    saveTasks();
-    input.value = '';
-    updateProgress();
-    updateWeekProgress();
-  }
+    }
 
-  btn.addEventListener('click', addTask);
-  input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') addTask();
+    btn.addEventListener('click', addTask);
+
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addTask();
+      }
+    });
   });
-});
+}
 
 // ── ИНИЦИАЛИЗАЦИЯ ──
+loadTasks();
+initExtraTaskBlocks();
 updateProgress();
 updateWeekProgress();
-loadTasks();
-      </body>
+</script>
+
+</body>
     </html>
-  
