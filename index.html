@@ -879,6 +879,7 @@ buildCal();
 // ── ЧЕКБОКСЫ ──
 function tog(el){
   el.classList.toggle('done');
+  saveTasks();
   updateProgress();
   updateWeekProgress();
 }
@@ -1008,14 +1009,6 @@ function addDeleteBtn(li) {
 // Кнопки удаления для существующих задач
 document.querySelectorAll('.ti').forEach(function(li) {
   addDeleteBtn(li);
-});
-
-// Также вешаем saveTasks на существующие чекбоксы
-document.querySelectorAll('.ti').forEach(function(li) {
-  li.addEventListener('click', function(e) {
-    if (e.target.classList.contains('del-btn')) return;
-    saveTasks();
-  });
 });
 
 // Логика кнопок добавления
